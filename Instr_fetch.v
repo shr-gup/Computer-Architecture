@@ -1,38 +1,25 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 26.03.2022 14:16:27
-// Design Name: 
-// Module Name: Instr_fetch
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
 module Instr_fetch(
-    input clk,
     input reset,
-    output [31:0] Instr_code
+    input clk,
+    output [7:0] Instruction_code //8-bit instr codes
     );
-    
-    reg [31:0] PC;
-    Instr_mem X0(reset,PC,Instr_code);//instantiation of instruction_memory block
-    always @(posedge clk,negedge reset)
+    reg [7:0] PC;
+    Instr_mem X0(reset,PC,Instruction_code);
+    wire [1:0] opcode;
+    wire [5:0] imm;
+    assign imm = Instruction_code[5:0];
+    assign opcode  = Instruction_code[7:6]; 
+        
+    always @(posedge clk, negedge reset)
     begin
         if(reset == 0)
-        PC<=0;
+            PC<=0;
         else
-        PC<=PC+4;
-    end
-endmodule
+            begin
+                if(opcode == 2'b11)
+                  PC<=PC+1+imm;
+             else
+                  PC<=PC+1;
+            end
+     end
+    endmodule

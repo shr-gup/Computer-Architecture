@@ -1,30 +1,8 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 26.03.2022 14:16:27
-// Design Name: 
-// Module Name: Mux21
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
 module Mux21(
-    input [31:0] I0,
-    input [31:0] I1,
+    input [7:0] I0,
+    input [7:0] I1,
     input S0,
-    output reg [31:0] Out_21
+    output reg [7:0] Out_21
     );
     
     always @(S0 or I0 or I1 )

@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 26.03.2022 14:16:27
+// Create Date: 21.04.2022 13:02:23
 // Design Name: 
 // Module Name: Sign_extend
 // Project Name: 
@@ -21,18 +21,16 @@
 
 
 module Sign_extend(
-input [1:0] Sign,
-input [31:0] Instr_code,
-output reg [31:0] Imm
-
+input Imm_sel,
+input [7:0] Instr_code,
+output reg [7:0] Imm
     );
+    
     always@(*)
-    begin
-    if(Sign == 2'b00) // no sign extend needed
-        Imm = 32'h00;
-    else if(Sign == 2'b10) //I-type instructions
-        Imm<=$signed(Instr_code[20:0]);
-    else if(Sign == 2'b11) //srl and sll type instructions
-        Imm<=$signed(Instr_code[10:6]);
-    end
+        begin
+        if(Imm_sel == 1'b0) // no sign extend needed
+            Imm = 8'h00;
+        else //li
+            Imm<=$signed(Instr_code[2:0]);
+        end
 endmodule
